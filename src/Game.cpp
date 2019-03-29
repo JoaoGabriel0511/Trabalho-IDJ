@@ -6,6 +6,7 @@
 #include "../include/Sprite.h"
 #include "../include/State.h"
 #include "../include/Music.h"
+#include <iostream>
 using namespace std;
 
 Game* Game::instance;
@@ -14,12 +15,16 @@ Game& Game::GetInstance() {
     if(instance != NULL) {
         return *instance;
     } else {
-        instance = new Game("trabalho1", 10, 10);
+        instance = new Game("trabalho1", 600, 1000);
         return *instance;
     }
 }
 
 Game::Game(string title, int width, int height) {
+    if (instance != NULL){
+        throw runtime_error("so deveria ter um objeto instanciado");
+    }
+    instance = this;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     Mix_Init(MIX_INIT_FLAC | MIX_INIT_OGG | MIX_INIT_MP3);
@@ -27,6 +32,7 @@ Game::Game(string title, int width, int height) {
     Mix_AllocateChannels(32);
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, height, width, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    this->state = new State();
 }
 
 Game::~Game() {

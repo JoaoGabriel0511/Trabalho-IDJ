@@ -1,10 +1,10 @@
 #ifndef STATE_H
 #define STATE_H
 #include "Sprite.h"
-// #include "Music.h"
+#include "Music.h"
 class State {
-    Sprite bg;
-    // Music music;
+    Sprite *bg;
+    Music *music;
     bool quitRequested;
     public:
         State();

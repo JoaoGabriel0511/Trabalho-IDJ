@@ -2,14 +2,17 @@
 #define MUSIC_H
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_mixer.h"
+#include <string>
+using namespace std;
 class Music {
-    // MixMusic * music;
+    Mix_Music * music;
     public:
         Music();
-        Music(const char * file);
-        void Play(int times = -1);
-        void Stop(int msToStop = 1500);
-        void Open(const char * file);
+        Music(string file);
+        ~Music();
+        void Play(int times);
+        void Stop(int msToStop);
+        void Open(string file);
         bool IsOpen();
 };
 #endif

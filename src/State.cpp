@@ -3,22 +3,29 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
+#include <iostream>
+using namespace std;
 State::State() {
     quitRequested = false;
-    //bg* = new Sprite();
+    LoadAssets();
+    this->music->Play(-1);
 }
 
 void State::Update(float dt) {
-    while(SDL_QuitRequested() == true) {
+    if(SDL_QuitRequested() == true) {
         quitRequested = true;
     }
 }
 
 void State::Render() {
-
+    bg->Render(0, 0);
 }
 
 bool State::QuitRequested() {
-    quitRequested = false;
     return quitRequested;
+}
+
+void State::LoadAssets(){
+    bg = new Sprite("assets/img/ocean.jpg");
+    music = new Music("assets/audio/stageState.ogg");
 }
