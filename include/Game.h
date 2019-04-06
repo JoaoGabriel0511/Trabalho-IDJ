@@ -2,10 +2,9 @@
 #define GAME_H
 #include <string>
 #include "State.h"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
 using namespace std;
 
+class State;
 class Game {
     Game(string title, int width, int height);
     SDL_Window *window;

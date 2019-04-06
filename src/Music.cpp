@@ -4,11 +4,11 @@
 #include <iostream>
 using namespace std;
 
-Music::Music(){
+Music::Music(GameObject& associated) : Component(associated){
     music = NULL;
 }
 
-Music::Music(string file){
+Music::Music(GameObject& associated, string file) : Component(associated) {
     Open(file);
 }
 
@@ -30,4 +30,16 @@ void Music::Open(string file) {
 
 Music::~Music() {
     Mix_FreeMusic(music);
+}
+
+void Music::Update(float dt) {}
+
+void Music::Render() {}
+
+bool Music::Is(string type){
+    bool result = false;
+    if(strcmp("Music", type.c_str()) == 0){
+        result = true;
+    }
+    return result;
 }

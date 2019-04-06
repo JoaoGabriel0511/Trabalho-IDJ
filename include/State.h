@@ -2,12 +2,20 @@
 #define STATE_H
 #include "Sprite.h"
 #include "Music.h"
+#include "Face.h"
+#include "Sound.h"
+#include <vector>
+#include <memory>
+using namespace std;
 class State {
-    Sprite *bg;
-    Music *music;
+    GameObject *bg;
     bool quitRequested;
+    vector<unique_ptr<GameObject>> objectArray;
+    void Input();
+    void AddObject(int mouseX, int mouseY);
     public:
         State();
+        ~State();
         bool QuitRequested();
         void LoadAssets();
         void Update(float dt);

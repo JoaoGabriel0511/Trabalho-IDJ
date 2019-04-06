@@ -3,6 +3,7 @@
 using namespace std;
 
 int main() {
+    cout << "Antes do Game.run" << endl;
     Game::GetInstance().Run();
     return 0;
 }

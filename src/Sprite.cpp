@@ -1,18 +1,24 @@
-#include <string>
-#include <iostream>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
 #include "../include/Sprite.h"
-#include "../include/Game.h"
+
 using namespace std;
-Sprite::Sprite() {
+Sprite::Sprite(GameObject &associated) : Component(associated) {
     texture = NULL;
 }
 
-Sprite::Sprite(string file){
+Sprite::Sprite(GameObject &associated, string file) : Component(associated) {
     texture = NULL;
     this->Open(file);
+}
+
+void Sprite::Update(float dt) {}
+
+
+bool Sprite::Is(string type) {
+    bool result = false;
+    if(type == "Sprite") {
+        result = true;
+    }
+    return result;
 }
 
 Sprite::~Sprite() {
@@ -29,8 +35,8 @@ void Sprite::Open(string file) {
         cout << SDL_GetError() << endl;
     } else {
         cout << "Deu certo" << endl;
-        SDL_QueryTexture(texture, NULL, NULL, &height, &width);
-        SetClip(0, 0, height, width);
+        SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+        SetClip(0, 0, width, height);
     }
 }
 
@@ -41,8 +47,8 @@ void Sprite::SetClip(int x, int y, int w, int h){
     clipRect.y = y;
 }
 
-void Sprite::Render(int x, int y) {
-    SDL_Rect dstRect{ x, y, clipRect.w, clipRect.h };
+void Sprite::Render() {
+    SDL_Rect dstRect{ int(associated.box.x), int(associated.box.y), width, height };
     SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect);
 }
 

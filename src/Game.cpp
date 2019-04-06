@@ -15,7 +15,7 @@ Game& Game::GetInstance() {
     if(instance != NULL) {
         return *instance;
     } else {
-        instance = new Game("trabalho1", 600, 1000);
+        instance = new Game("trabalho1", 800, 600);
         return *instance;
     }
 }
@@ -30,7 +30,8 @@ Game::Game(string title, int width, int height) {
     Mix_Init(MIX_INIT_FLAC | MIX_INIT_OGG | MIX_INIT_MP3);
     Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
     Mix_AllocateChannels(32);
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, height, width, 0);
+    Mix_HaltChannel(1);
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     this->state = new State();
 }
@@ -53,6 +54,7 @@ SDL_Renderer * Game::GetRenderer () {
 }
 
 void Game::Run() {
+    cout << "Antes do while" << endl;
     while(state->QuitRequested() == false) {
         state->Update(0);
         state->Render();
