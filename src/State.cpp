@@ -5,11 +5,12 @@
 using namespace std;
 State::State() {
     quitRequested = false;
-	cout << "Antes do LoadAssets de State" << endl;
+	cout << "Carregando assets do state..." << endl;
     LoadAssets();
-	cout << "Depois do LoadAssets de State" << endl;
+	cout << "Assets do state carregados" << endl;
+	cout << "Preparando para tocar a musica do state..."<<endl;
     ((Music*) bg->GetComponent("Music").get())->Play(-1);
-	cout << "Depois de play music" << endl;
+	cout << "Musica do state tocando" << endl;
 }
 
 void State::Update(float dt) {
@@ -18,16 +19,15 @@ void State::Update(float dt) {
         objectArray[i]->Update(0);
     }
 	for(int j = 0; j < objectArray.size(); j++) {
-		cout<<"isDEad state Update "<<j<<" "<<objectArray[j]->IsDead()<<endl;
+		//cout<<"isDEad state Update "<<j<<" "<<objectArray[j]->IsDead()<<endl;
 		if(objectArray[j]->IsDead() == true) {
 			Sound* sound;
 			sound = ((Sound*) objectArray[j]->GetComponent("Sound").get());
-			sound->Play(0.5);
-			sleep(1);
+			sound->Play(1);
 			if(Mix_Playing(sound->chanel)){
 				objectArray.erase(objectArray.begin() + j);
 			}
-			cout<<"depois do erase"<<endl;
+			//cout<<"depois do erase"<<endl;
         }
 	}
 }
@@ -44,17 +44,34 @@ bool State::QuitRequested() {
 
 void State::LoadAssets(){
     Sprite *sprite;
+	TileSet *tileSet;
+	TileMap *tileMap;
+	GameObject *tileGO;
     Music *music;
+	tileSet = new TileSet(64, 64, "assets/img/tileset.png");
+	cout<<"		->TileSet criado"<<endl;
+	tileMap = new TileMap(*tileGO, "assets/map/tileMap.txt", tileSet);
+	cout<<"		->TileMap criado"<<endl;
     bg = new GameObject();
+	cout<<"		->Game Object bg criado"<<endl;
+	tileGO = new GameObject();
+	cout<<"		->Game Object tileGO criado"<<endl;
+	tileGO->AddComponent(shared_ptr<Component> (tileMap));
+	cout<<"		->TileMap adicionado como componet de tileGO"<<endl;
     sprite = new Sprite(*bg, "assets/img/ocean.jpg");
+	cout<<"		->Sprite do backgroud criado"<<endl;
 	bg->box.h = sprite->GetHeight();
 	bg->box.w = sprite->GetWidth();
     music = new Music(*bg, "assets/audio/stageState.ogg");
+	cout<<"		->Musica de fundo criada"<<endl;
     bg->AddComponent(shared_ptr<Component> (sprite));
+	cout<<"		->Sprite do background adicionado ao component bg"<<endl;
     bg->AddComponent(shared_ptr<Component> (music));
-	cout<<"object array size inicio "<<objectArray.size()<<endl;
+	cout<<"		->Musica de fundo adicionada ao component bg"<<endl;
 	objectArray.emplace_back(bg);
-	cout<<"object array size inicio oo "<<objectArray.size()<<endl;
+	cout<<"		->Game Object bg adicionado ao array de Game Objects"<<endl;
+	objectArray.emplace_back(tileGO);
+	cout<<"		->Game Object tileGO adicionado ao array de Game Objects"<<endl;
 }
 
 State::~State() {

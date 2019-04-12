@@ -1,6 +1,6 @@
 #ifndef Sound_H
 #define Sound_H
-#include "SDL2/SDL_mixer.h"
+#include "Resources.h"
 #include "Component.h"
 using namespace std;
 class Sound : public Component {

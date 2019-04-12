@@ -28,18 +28,13 @@ void Sound::Stop() {
 }
 
 void Sound::Open(string file) {
-    chunk = Mix_LoadWAV(file.c_str());
+    chunk = Resources::GetSound(file);
     if(chunk == NULL) {
         cout << "falha em abrir o som" << file << endl;
     }
 }
 
-Sound::~Sound() {
-    if(chunk != NULL) {
-        Mix_HaltChannel(chanel);
-        Mix_FreeChunk(chunk);
-    }
-}
+Sound::~Sound() {}
 
 void Sound::Update(float dt){
 

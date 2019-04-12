@@ -1,6 +1,6 @@
 #include "../include/Sprite.h"
-
 using namespace std;
+
 Sprite::Sprite(GameObject &associated) : Component(associated) {
     texture = NULL;
 }
@@ -21,22 +21,19 @@ bool Sprite::Is(string type) {
     return result;
 }
 
-Sprite::~Sprite() {
-    SDL_DestroyTexture(texture);
-}
+Sprite::~Sprite() {}
 
-void Sprite::Open(string file) {
-    if(texture != NULL) {
-        SDL_DestroyTexture(texture);
-    }
-    texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
+bool Sprite::Open(string file) {
+    texture = Resources::GetImage(file);
     if(texture == NULL){
         cout << "ERROR CRASHOU: Sprite.Open IMG_LoadTexture"<<endl;
         cout << SDL_GetError() << endl;
+        return false;
     } else {
         cout << "Deu certo" << endl;
         SDL_QueryTexture(texture, NULL, NULL, &width, &height);
         SetClip(0, 0, width, height);
+        return true;
     }
 }
 
@@ -48,7 +45,11 @@ void Sprite::SetClip(int x, int y, int w, int h){
 }
 
 void Sprite::Render() {
-    SDL_Rect dstRect{ int(associated.box.x), int(associated.box.y), width, height };
+    Render(associated.box.x, associated.box.y, width, height);
+}
+
+void Sprite::Render(float x, float y, float w, float h) {
+    SDL_Rect dstRect{ int(x), int(y), w, h };
     SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect);
 }
 

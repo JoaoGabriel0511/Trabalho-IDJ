@@ -1,9 +1,8 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 #include "SDL2/SDL.h"
-#include "SDL2/SDL_mixer.h"
+#include "Resources.h"
 #include "GameObject.h"
-#include <string>
 using namespace std;
 class Music : public Component{
     Mix_Music * music;

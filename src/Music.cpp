@@ -21,16 +21,14 @@ void Music::Stop(int msToStop = 1500) {
 }
 
 void Music::Open(string file) {
-    music = Mix_LoadMUS(file.c_str());
+    music = Resources::GetMusic(file);
     if(music == NULL) {
         cout << "ERROR CRASHOU: Music"<<endl;
         cout << SDL_GetError() << endl;
     }
 }
 
-Music::~Music() {
-    Mix_FreeMusic(music);
-}
+Music::~Music() {}
 
 void Music::Update(float dt) {}
 

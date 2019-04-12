@@ -1,4 +1,5 @@
-
+#ifndef RECT_H
+#define RECT_H
 class Rect {
     public:
         Rect();
@@ -9,4 +10,5 @@ class Rect {
         int h;
         bool Contains(float mouseX, float mouseY);
 };
+#endif
 

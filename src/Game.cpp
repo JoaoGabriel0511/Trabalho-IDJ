@@ -2,6 +2,7 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
 #include <string>
+#include <fstream>
 #include "../include/Game.h"
 #include "../include/Sprite.h"
 #include "../include/State.h"
@@ -33,7 +34,9 @@ Game::Game(string title, int width, int height) {
     Mix_HaltChannel(1);
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    cout<< "CRIANDO STATE DO JOGO..." <<endl;
     this->state = new State();
+    cout<< "STATE DO JOGO CRIADO"<<endl;
 }
 
 Game::~Game() {
@@ -54,11 +57,19 @@ SDL_Renderer * Game::GetRenderer () {
 }
 
 void Game::Run() {
-    cout << "Antes do while" << endl;
+    int i = 1;
+    cout << "Comencando o loop do Jogo..." << endl;
     while(state->QuitRequested() == false) {
+        //cout<<"COMECANDO LOOP "<< i << " DO JOGO..."<<endl;
+        //cout<< "COMECANDO O UPDATE DO STATE..." <<endl;
         state->Update(0);
+        //cout<< "UPDATE DE STATE FEITO" <<endl;
+        //cout<< "COMECANDO RENDER DO STATE..." <<endl;
         state->Render();
+        //cout<< "RENDER DE STATE FEITO" <<endl;
         SDL_RenderPresent(renderer);
         SDL_Delay(33);
+        i++;
+        //cout<<"LOOP "<< i << " DO JOGO FINALIZADO"<<endl;
     }
 }

@@ -1,11 +1,10 @@
 #ifndef SPRITE_H
 #define SPRITE_H
-#include <string>
 #include "SDL2/SDL.h"
 #include "Component.h"
 #include "Game.h"
 #include "Vect2.h"
-#include "SDL2/SDL_image.h"
+#include "Resources.h"
 using namespace std;
 class Sprite : public Component {
     SDL_Texture * texture;
@@ -13,12 +12,14 @@ class Sprite : public Component {
     int height;
     SDL_Rect clipRect;
     public:
+        Sprite();
         Sprite(GameObject &associated);
         Sprite(GameObject &associated, string file);
         ~Sprite();
-        void Open(string file);
+        bool Open(string file);
         void SetClip(int x, int y, int w, int h);
         void Render();
+        void Render(float x, float y, float w, float h);
         int GetWidth();
         int GetHeight();
         bool IsOpen();

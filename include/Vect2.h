@@ -1,3 +1,5 @@
+#ifndef VECT2_H
+#define VECT2_H
 #include <math.h>
 class Vect2{
     public:
@@ -14,4 +16,4 @@ class Vect2{
             return result;
         }
 };
-
+#endif
