@@ -1,6 +1,8 @@
 #ifndef VECT2_H
 #define VECT2_H
 #include <math.h>
+#include <iostream>
+using namespace std;
 class Vect2{
     public:
         Vect2();

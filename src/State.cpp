@@ -85,8 +85,8 @@ void State::AddObject(int mouseX, int mouseY) {
     Face *newFace;
     newGO = new GameObject();
     newSP = new Sprite(*newGO, "assets/img/penguinface.png");
-    newGO->box.x = mouseX;
-    newGO->box.y = mouseY;
+    newGO->box.x = mouseX - newSP->GetWidth()/2;
+    newGO->box.y = mouseY - newSP->GetHeight()/2;
 	newGO->box.h = newSP->GetHeight();
 	newGO->box.w = newSP->GetWidth();
 	cout << "Penguin esta em X:" << newGO->box.x << "-Y:" << newGO->box.y << endl;

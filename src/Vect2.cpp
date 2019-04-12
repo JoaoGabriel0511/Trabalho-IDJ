@@ -13,8 +13,11 @@ Vect2::Vect2() {
 Vect2::~Vect2() {}
 
 Vect2 Vect2::GetRotated(float angle){
-    x = x * cos(angle) - y * sin(angle);
-    y = y * cos(angle) + x * sin(angle);
+    int value_x = this->x;
+    int value_y = this->y;
+    x = value_x * cos(angle) - value_y * sin(angle);
+    y = value_y * cos(angle) + value_x * sin(angle);
+    return Vect2(x,y);
 }
 
 
