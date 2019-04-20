@@ -5,6 +5,8 @@
 #include "Face.h"
 #include "Sound.h"
 #include "TileMap.h"
+#include "CameraFollower.h"
+#include "Debugger.h"
 #include <vector>
 #include <memory>
 using namespace std;
@@ -13,7 +15,8 @@ class State {
     GameObject *bg;
     bool quitRequested;
     vector<unique_ptr<GameObject>> objectArray;
-    void Input();
+    //void Input();
+    void AddPenguin();
     void AddObject(int mouseX, int mouseY);
     public:
         State();

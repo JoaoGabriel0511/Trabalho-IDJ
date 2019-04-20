@@ -14,12 +14,47 @@ State::State() {
 }
 
 void State::Update(float dt) {
-    Input();
-    for(int i = 0; i < objectArray.size(); i++) {
-        objectArray[i]->Update(0);
+    // Input();
+	Camera::Update(dt);
+	Debugger debugger = Debugger::GetInstance();
+	if(debugger.lookUpdateState) {
+		cout<<"   inicio do Update do State"<<endl;
+		cout<<"   >>antes de pegar a instance do inputManager"<<endl;
+	}
+	InputManager inputManager = InputManager::GetInstance();
+	if(debugger.lookUpdateState) {
+		cout<<"   >>depois de pegar a instance do inputManager"<<endl;
+	}
+	if( inputManager.KeyPress(ESCAPE_KEY) || inputManager.QuitRequested() ){
+		if(debugger.lookUpdateState) {
+			cout<<"   Leu input de saida"<<endl;
+		}
+		quitRequested = true;
+	} else {
+		if(InputManager::GetInstance().KeyPress(SPACE_KEY)) {
+			if(debugger.lookUpdateState) {
+				cout<<"   Leu input space--->prestes a adicionar um pinguin"<<endl;
+			}
+			AddPenguin();
+			if(debugger.lookUpdateState) {
+				cout<<"   Adicionou pinguin"<<endl;
+			}
+		}
+	}
+	if(debugger.lookUpdateState) {
+		cout<<"   Inicio dos updates no object array"<<endl;
+	}
+    for(int i = objectArray.size() - 1; i >= 0 ; i--) {
+        objectArray[i]->Update(dt);
     }
+	Face::SetDeleted(false);
+	if(debugger.lookUpdateState) {
+		cout<<"   Fim dos updates no object array"<<endl;
+	}
 	for(int j = 0; j < objectArray.size(); j++) {
-		//cout<<"isDEad state Update "<<j<<" "<<objectArray[j]->IsDead()<<endl;
+		if(debugger.lookUpdateState) {
+			cout<<"isDEad state Update "<<j<<" "<<objectArray[j]->IsDead()<<endl;
+		}
 		if(objectArray[j]->IsDead() == true) {
 			Sound* sound;
 			sound = ((Sound*) objectArray[j]->GetComponent("Sound").get());
@@ -27,8 +62,13 @@ void State::Update(float dt) {
 			if(Mix_Playing(sound->chanel)){
 				objectArray.erase(objectArray.begin() + j);
 			}
-			//cout<<"depois do erase"<<endl;
-        }
+			if(debugger.lookUpdateState) {
+				cout<<"depois do erase"<<endl;
+			}
+		}
+	}
+	if(debugger.lookUpdateState) {
+		cout<<"   Fim do Update do State"<<endl;
 	}
 }
 
@@ -44,6 +84,7 @@ bool State::QuitRequested() {
 
 void State::LoadAssets(){
     Sprite *sprite;
+	//CameraFollower *cameraFollower;
 	TileSet *tileSet;
 	TileMap *tileMap;
 	GameObject *tileGO;
@@ -59,12 +100,14 @@ void State::LoadAssets(){
 	tileGO->AddComponent(shared_ptr<Component> (tileMap));
 	cout<<"		->TileMap adicionado como componet de tileGO"<<endl;
     sprite = new Sprite(*bg, "assets/img/ocean.jpg");
+	//cameraFollower = new CameraFollower(*bg);
 	cout<<"		->Sprite do backgroud criado"<<endl;
 	bg->box.h = sprite->GetHeight();
 	bg->box.w = sprite->GetWidth();
     music = new Music(*bg, "assets/audio/stageState.ogg");
 	cout<<"		->Musica de fundo criada"<<endl;
     bg->AddComponent(shared_ptr<Component> (sprite));
+	//bg->AddComponent(shared_ptr<Component> (cameraFollower));
 	cout<<"		->Sprite do background adicionado ao component bg"<<endl;
     bg->AddComponent(shared_ptr<Component> (music));
 	cout<<"		->Musica de fundo adicionada ao component bg"<<endl;
@@ -85,8 +128,8 @@ void State::AddObject(int mouseX, int mouseY) {
     Face *newFace;
     newGO = new GameObject();
     newSP = new Sprite(*newGO, "assets/img/penguinface.png");
-    newGO->box.x = mouseX - newSP->GetWidth()/2;
-    newGO->box.y = mouseY - newSP->GetHeight()/2;
+    newGO->box.x = (mouseX - newSP->GetWidth()/2);
+    newGO->box.y = (mouseY - newSP->GetHeight()/2);
 	newGO->box.h = newSP->GetHeight();
 	newGO->box.w = newSP->GetWidth();
 	cout << "Penguin esta em X:" << newGO->box.x << "-Y:" << newGO->box.y << endl;
@@ -99,10 +142,15 @@ void State::AddObject(int mouseX, int mouseY) {
 	cout<<"object array antes de adicionar "<<objectArray.size()<<endl;
     objectArray.emplace_back(newGO);
 	cout<<"object array depois de adicionar "<<objectArray.size()<<endl;
-
 }
 
-void State::Input() {
+void State::AddPenguin() {
+	InputManager inputManager = InputManager::GetInstance();
+	Vect2 objPos = Vect2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vect2(inputManager.GetMouseX() , inputManager.GetMouseY());
+	AddObject((int)objPos.x, (int)objPos.y);
+}
+
+/* void State::Input() {
 	SDL_Event event;
 	int mouseX, mouseY;
 
@@ -153,4 +201,4 @@ void State::Input() {
 			}
 		}
 	}
-}
+} */

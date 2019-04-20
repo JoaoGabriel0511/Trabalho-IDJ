@@ -6,7 +6,9 @@ using namespace std;
 
 class Face : public Component {
     int hitpoints;
+    static bool deletedFace;
     public:
+        static void SetDeleted(bool deleted);
         Face(GameObject& associated);
         ~Face();
         void Damage(int damage);

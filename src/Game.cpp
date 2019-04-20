@@ -21,10 +21,22 @@ Game& Game::GetInstance() {
     }
 }
 
+float Game::GetDeltaTime() {
+    return dt;
+}
+
+void Game::CalculateDeltaTime() {
+    dt = SDL_GetTicks() - frameStart;
+    dt = dt/1000;
+    frameStart = SDL_GetTicks();
+}
+
 Game::Game(string title, int width, int height) {
     if (instance != NULL){
         throw runtime_error("so deveria ter um objeto instanciado");
     }
+    frameStart = 0;
+    dt = 0;
     instance = this;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
@@ -59,17 +71,31 @@ SDL_Renderer * Game::GetRenderer () {
 void Game::Run() {
     int i = 1;
     cout << "Comencando o loop do Jogo..." << endl;
+    Debugger debugger = Debugger::GetInstance();
     while(state->QuitRequested() == false) {
-        //cout<<"COMECANDO LOOP "<< i << " DO JOGO..."<<endl;
-        //cout<< "COMECANDO O UPDATE DO STATE..." <<endl;
-        state->Update(0);
-        //cout<< "UPDATE DE STATE FEITO" <<endl;
-        //cout<< "COMECANDO RENDER DO STATE..." <<endl;
+        CalculateDeltaTime();
+        if(debugger.lookLoopGame) {
+            cout<<"COMECANDO LOOP "<< i << " DO JOGO..."<<endl;
+            cout<< "COMECANDO O UPDATE DO STATE..." <<endl;
+        }
+        InputManager::GetInstance().Update();
+        if(debugger.lookLoopGame) {
+            cout<<"CONSEGUIU O INSTANCE DO INPUT MANAGE"<<endl;
+        }
+        state->Update(GetDeltaTime());
+        if(debugger.lookLoopGame) {
+            cout<< "UPDATE DE STATE FEITO" <<endl;
+            cout<< "COMECANDO RENDER DO STATE..." <<endl;
+        }
         state->Render();
-        //cout<< "RENDER DE STATE FEITO" <<endl;
+        if(debugger.lookLoopGame) {
+            cout<< "RENDER DE STATE FEITO" <<endl;
+        }
         SDL_RenderPresent(renderer);
-        SDL_Delay(33);
+        SDL_Delay(11);
         i++;
-        //cout<<"LOOP "<< i << " DO JOGO FINALIZADO"<<endl;
+        if(debugger.lookLoopGame) {
+            cout<<"LOOP "<< i << " DO JOGO FINALIZADO"<<endl;
+        }
     }
 }

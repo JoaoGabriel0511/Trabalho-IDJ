@@ -47,12 +47,12 @@ void TileMap::Render() {
     //cout<<"Renderizando mapa do jogo..."<<endl;
     for(int i = 0; i < mapDepth; i++){
     //  cout<<"Renderizando layer "<< i << " do jogo"<<endl;
-        RenderLayer(i,0,0);
+        RenderLayer(i,Camera::pos.x,Camera::pos.y);
     //    cout<<"Layer "<< i << " do jogo renderizado"<<endl;
     }
     //cout<<"Mapa renderizado"<<endl;
 }
-void TileMap::RenderLayer(int layer, int cameraX = 0, int cameraY = 0){
+void TileMap::RenderLayer(int layer, int cameraX, int cameraY){
     int aux = mapHeight * mapWidth * layer;
     int aux2 = 0;
     int aux3 = 0;
@@ -66,7 +66,7 @@ void TileMap::RenderLayer(int layer, int cameraX = 0, int cameraY = 0){
         }
         aux2 = aux2 - mapWidth * aux3;
         posx = aux2 * tileSet->GetWidth();
-        if(tileSet->RenderTile(tileMatrix[i], posx, posy)){
+        if(tileSet->RenderTile(tileMatrix[i], posx + cameraX * (1+layer), posy + cameraY *(1+layer))){
             //cout<<"carregou tile pos("<<posx<<","<<posy<<") index: "<<tileMatrix[i]<<endl;
         } else {
             //cout<<"falha ao carregar tile pos("<<posx<<","<<posy<<") index: "<<tileMatrix[i]<<endl;

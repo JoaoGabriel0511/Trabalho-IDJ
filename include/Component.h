@@ -2,6 +2,8 @@
 #define COMPONENT_H
 #include "SDL2/SDL.h"
 #include "GameObject.h"
+#include "InputManager.h"
+#include "Camera.h"
 #include <string>
 using namespace std;
 class GameObject;

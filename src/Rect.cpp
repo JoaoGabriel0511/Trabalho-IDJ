@@ -12,7 +12,7 @@ bool Rect::Contains(float mouseX, float mouseY) {
 
 
 Rect::Rect() {
-    x =0;
+    x=0;
     y=0;
     h=0;
     w=0;
