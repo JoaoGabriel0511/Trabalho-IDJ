@@ -84,7 +84,7 @@ bool State::QuitRequested() {
 
 void State::LoadAssets(){
     Sprite *sprite;
-	//CameraFollower *cameraFollower;
+	CameraFollower *cameraFollower;
 	TileSet *tileSet;
 	TileMap *tileMap;
 	GameObject *tileGO;
@@ -100,14 +100,14 @@ void State::LoadAssets(){
 	tileGO->AddComponent(shared_ptr<Component> (tileMap));
 	cout<<"		->TileMap adicionado como componet de tileGO"<<endl;
     sprite = new Sprite(*bg, "assets/img/ocean.jpg");
-	//cameraFollower = new CameraFollower(*bg);
+	cameraFollower = new CameraFollower(*bg);
 	cout<<"		->Sprite do backgroud criado"<<endl;
 	bg->box.h = sprite->GetHeight();
 	bg->box.w = sprite->GetWidth();
     music = new Music(*bg, "assets/audio/stageState.ogg");
 	cout<<"		->Musica de fundo criada"<<endl;
     bg->AddComponent(shared_ptr<Component> (sprite));
-	//bg->AddComponent(shared_ptr<Component> (cameraFollower));
+	bg->AddComponent(shared_ptr<Component> (cameraFollower));
 	cout<<"		->Sprite do background adicionado ao component bg"<<endl;
     bg->AddComponent(shared_ptr<Component> (music));
 	cout<<"		->Musica de fundo adicionada ao component bg"<<endl;
@@ -147,7 +147,7 @@ void State::AddObject(int mouseX, int mouseY) {
 void State::AddPenguin() {
 	InputManager inputManager = InputManager::GetInstance();
 	Vect2 objPos = Vect2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vect2(inputManager.GetMouseX() , inputManager.GetMouseY());
-	AddObject((int)objPos.x, (int)objPos.y);
+	AddObject((int)objPos.x - Camera::pos.x, (int)objPos.y - Camera::pos.y);
 }
 
 /* void State::Input() {

@@ -19,40 +19,34 @@ void Camera::Update(float dt) {
         if(inputManager.IsKeyDown(W_KEY)) {
             speed.x = 0;
             speed.y = 500 * dt;
-        } else {
-            if(inputManager.IsKeyDown(D_KEY)) {
-                speed.x = -500 * dt;
-                speed.y = 0;
-            } else {
-                if(inputManager.IsKeyDown(A_KEY)) {
-                    speed.x = 500 * dt;
-                    speed.y = 0;
-                } else {
-                    if(inputManager.IsKeyDown(S_KEY)) {
-                        speed.x = 0;
-                        speed.y = -500 * dt;
-                    }
-                }
-            }
+        }
+        if(inputManager.IsKeyDown(D_KEY)) {
+            speed.x = -500 * dt;
+            speed.y = 0;
+        }
+        if(inputManager.IsKeyDown(A_KEY)) {
+            speed.x = 500 * dt;
+            speed.y = 0;
+        }
+        if(inputManager.IsKeyDown(S_KEY)) {
+            speed.x = 0;
+            speed.y = -500 * dt;
         }
         if(inputManager.KeyRelease(W_KEY)) {
             speed.x = 0;
             speed.y = 0;
-        } else {
-            if(inputManager.KeyRelease(D_KEY)) {
-                speed.x = 0;
-                speed.y = 0;
-            } else {
-                if(inputManager.KeyRelease(A_KEY)) {
-                    speed.x = 0;
-                    speed.y = 0;
-                } else {
-                    if(inputManager.KeyRelease(S_KEY)) {
-                        speed.x = 0;
-                        speed.y = 0;
-                    }
-                }
-            }
+        }
+        if(inputManager.KeyRelease(D_KEY)) {
+            speed.x = 0;
+            speed.y = 0;
+        }
+        if(inputManager.KeyRelease(A_KEY)) {
+            speed.x = 0;
+            speed.y = 0;
+        }
+        if(inputManager.KeyRelease(S_KEY)) {
+            speed.x = 0;
+            speed.y = 0;
         }
         pos = pos + speed;
     } else {
