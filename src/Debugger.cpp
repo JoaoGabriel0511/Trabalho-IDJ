@@ -2,10 +2,12 @@
 bool Debugger::lookLoopGame;
 bool Debugger::lookInputManager;
 bool Debugger::lookUpdateState;
+bool Debugger::lookUpdateAlien;
 Debugger::Debugger() {
-    lookLoopGame = false;
-    lookUpdateState = false;
+    lookLoopGame = true;
+    lookUpdateState = true;
     lookInputManager = false;
+    lookUpdateAlien = false;
 }
 
 Debugger::~Debugger(){}

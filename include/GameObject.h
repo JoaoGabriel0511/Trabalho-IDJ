@@ -13,10 +13,12 @@ class GameObject{
     bool isDead;
     public:
         GameObject();
+        bool started;
         ~GameObject();
         void Update(float dt);
         void Render();
         bool IsDead();
+        void Start();
         void RequestedDelete();
         void AddComponent(shared_ptr<Component> cpt);
         void RemoveComponent(shared_ptr<Component> cpt);

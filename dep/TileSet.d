@@ -5,7 +5,8 @@ bin/TileSet.o: src/TileSet.cpp src/../include/TileSet.h \
  src/../include/Camera.h src/../include/Vect2.h src/../include/Game.h \
  src/../include/State.h src/../include/Music.h src/../include/Resources.h \
  src/../include/Face.h src/../include/Sound.h src/../include/TileMap.h \
- src/../include/TileSet.h src/../include/CameraFollower.h
+ src/../include/TileSet.h src/../include/CameraFollower.h \
+ src/../include/Alien.h src/../include/Action.h
 
 src/../include/TileSet.h:
 
@@ -42,3 +43,7 @@ src/../include/TileMap.h:
 src/../include/TileSet.h:
 
 src/../include/CameraFollower.h:
+
+src/../include/Alien.h:
+
+src/../include/Action.h:

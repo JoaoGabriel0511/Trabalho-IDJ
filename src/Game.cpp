@@ -72,6 +72,7 @@ void Game::Run() {
     int i = 1;
     cout << "Comencando o loop do Jogo..." << endl;
     Debugger debugger = Debugger::GetInstance();
+    state->Start();
     while(state->QuitRequested() == false) {
         CalculateDeltaTime();
         if(debugger.lookLoopGame) {
