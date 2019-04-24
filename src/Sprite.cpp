@@ -45,7 +45,7 @@ void Sprite::SetClip(int x, int y, int w, int h){
 }
 
 void Sprite::Render() {
-    Render(associated.box.x, associated.box.y, width, height);
+    Render(associated.box.x + Camera::pos.x, associated.box.y + Camera::pos.y, width, height);
 }
 
 void Sprite::Render(float x, float y, float w, float h) {

@@ -20,7 +20,7 @@ void Face::SetDeleted(bool deleted) {
 void Face::Update(float dt) {
     InputManager inputManager = InputManager::GetInstance();
     if(deletedFace == false) {
-        if(inputManager.MousePress(LEFT_MOUSE_BUTTON) && associated.box.Contains(inputManager.GetMouseX(), inputManager.GetMouseY()) ) {
+        if(inputManager.MousePress(LEFT_MOUSE_BUTTON) && associated.box.Contains(inputManager.GetMouseX() - Camera::pos.x, inputManager.GetMouseY() - Camera::pos.y) ) {
             cout << "CLICKOU NO PINGUIN" << endl;
             // Aplica dano
             Damage(30);
@@ -30,10 +30,8 @@ void Face::Update(float dt) {
     }
 }
 
-void Face::Render() {
-    associated.box.x += Camera::speed.x;
-    associated.box.y += Camera::speed.y;
-}
+void Face::Render() {}
+
 
 bool Face::Is(string type)  {
     bool result = false;

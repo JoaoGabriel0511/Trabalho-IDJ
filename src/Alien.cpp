@@ -1,5 +1,4 @@
 #include "../include/Alien.h"
-
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
     Sprite *alienSprite;
     alienSprite = new Sprite(associated, "assets/img/alien.png");
@@ -24,15 +23,15 @@ Alien::~Alien() {
 void Alien::Update(float dt) {
     Debugger *debugger;
     *debugger = Debugger::GetInstance();
+    if(debugger->lookUpdateAlien) {
+		cout<<"   Inicio do update do alien"<<endl;
+	}
     InputManager *inputManager;
     *inputManager = InputManager::GetInstance();
     Action *newAction;
     Vect2 dif;
     int mousePosX = inputManager->GetMouseX();
     int mousePosY = inputManager->GetMouseY();
-    if(debugger->lookUpdateAlien) {
-        cout<<"Update de alien inicializando"<<endl;
-    }
     if(inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
         newAction = new Action(action->SHOOT, mousePosX, mousePosY);
         taskQueue.push(*newAction);

@@ -7,7 +7,7 @@ Debugger::Debugger() {
     lookLoopGame = true;
     lookUpdateState = true;
     lookInputManager = false;
-    lookUpdateAlien = false;
+    lookUpdateAlien = true;
 }
 
 Debugger::~Debugger(){}
