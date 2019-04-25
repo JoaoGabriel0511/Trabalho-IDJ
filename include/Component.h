@@ -11,6 +11,7 @@ class Component {
     public:
         Component(GameObject &associated);
         virtual void Update(float dt) = 0;
+        virtual void Start() {}
         virtual void Render() = 0;
         virtual bool Is(string type) = 0;
         virtual ~Component();
@@ -18,5 +19,3 @@ class Component {
         GameObject& associated;
 };
 #endif
-
-

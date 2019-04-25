@@ -17,5 +17,12 @@ class Vect2{
             result.y = this->y + vet.y;
             return result;
         }
+        bool operator==(Vect2 vet) {
+            bool result = false;
+            if(this->x == vet.x && this->y == vet.y) {
+                result = true;
+            }
+            return result;
+        }
 };
 #endif

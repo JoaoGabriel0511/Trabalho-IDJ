@@ -3,6 +3,7 @@ using namespace std;
 
 GameObject::GameObject(){
     isDead = false;
+    started = false;
 }
 
 GameObject::~GameObject(){
@@ -32,6 +33,13 @@ void GameObject::Update(float dt) {
     }
 }
 
+void GameObject::Start() {
+    for(int i = components.size()-1; i >= 0; i--) {
+        components[i]->Start();
+    }
+    started = true;
+}
+
 void GameObject::Render() {
     int components_size = components.size();
     for(int i = 0; i < components_size; i++) {
@@ -50,7 +58,9 @@ void GameObject::RequestedDelete() {
 
 void GameObject::AddComponent(shared_ptr<Component> cpt){
     components.emplace_back(cpt);
-    cout<<components.size() <<" componetes"<<endl;
+    if(started == true) {
+        cpt->Start();
+    }
 }
 
 void GameObject::RemoveComponent(shared_ptr<Component> cpt) {
@@ -72,4 +82,3 @@ shared_ptr<Component> GameObject::GetComponent(string type){
     }
     return component;
 }
-

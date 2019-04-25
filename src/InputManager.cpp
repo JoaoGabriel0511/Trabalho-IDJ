@@ -2,7 +2,14 @@
 #include "unistd.h"
 using namespace std;
 InputManager& InputManager::GetInstance() {
+    Debugger debugger = Debugger::GetInstance();
+    if(debugger.lookInputManager){
+        cout<<"Dentro da instanciacao do inputManager"<<endl;
+    }
     static InputManager inputManager;
+    if(debugger.lookInputManager){
+        cout<<"Dentro da instanciacao do inputManager"<<endl;
+    }
     return inputManager;
 }
 

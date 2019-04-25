@@ -8,5 +8,6 @@ public:
     static bool lookUpdateState;
     static bool lookLoopGame;
     static bool lookInputManager;
+    static bool lookUpdateAlien;
 };
 #endif

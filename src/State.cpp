@@ -5,9 +5,17 @@
 using namespace std;
 State::State() {
     quitRequested = false;
-	cout << "Carregando assets do state..." << endl;
-    LoadAssets();
+	started = false;
+}
+
+void State::Start() {
+	cout <<"Carregando assets do state..."<< endl;
+	LoadAssets();
 	cout << "Assets do state carregados" << endl;
+	for(int i = objectArray.size() - 1; i >= 0 ; i--) {
+        objectArray[i]->Start();
+    }
+	started = true;
 	cout << "Preparando para tocar a musica do state..."<<endl;
     ((Music*) bg->GetComponent("Music").get())->Play(-1);
 	cout << "Musica do state tocando" << endl;
@@ -30,17 +38,17 @@ void State::Update(float dt) {
 			cout<<"   Leu input de saida"<<endl;
 		}
 		quitRequested = true;
-	} else {
-		if(InputManager::GetInstance().KeyPress(SPACE_KEY)) {
-			if(debugger.lookUpdateState) {
-				cout<<"   Leu input space--->prestes a adicionar um pinguin"<<endl;
-			}
-			AddPenguin();
-			if(debugger.lookUpdateState) {
-				cout<<"   Adicionou pinguin"<<endl;
-			}
-		}
-	}
+	} //else {
+		//if(InputManager::GetInstance().KeyPress(SPACE_KEY)) {
+			//if(debugger.lookUpdateState) {
+			//	cout<<"   Leu input space--->prestes a adicionar um pinguin"<<endl;
+			//}
+			//AddPenguin();
+			//if(debugger.lookUpdateState) {
+			//	cout<<"   Adicionou pinguin"<<endl;
+			//}
+		//}
+	//}
 	if(debugger.lookUpdateState) {
 		cout<<"   Inicio dos updates no object array"<<endl;
 	}
@@ -88,7 +96,16 @@ void State::LoadAssets(){
 	TileSet *tileSet;
 	TileMap *tileMap;
 	GameObject *tileGO;
+	GameObject *alienGO;
+	Alien *alien;
     Music *music;
+	alienGO = new GameObject();
+	cout<<"		->GameObject do alien criado->"<<endl;
+	alienGO->box.x = 533;
+	alienGO->box.y = 300;
+	alien = new Alien(*alienGO, 0);
+	cout<<"		->Alien criado"<<endl;
+	alienGO->AddComponent(shared_ptr<Component> (alien));
 	tileSet = new TileSet(64, 64, "assets/img/tileset.png");
 	cout<<"		->TileSet criado"<<endl;
 	tileMap = new TileMap(*tileGO, "assets/map/tileMap.txt", tileSet);
@@ -115,33 +132,52 @@ void State::LoadAssets(){
 	cout<<"		->Game Object bg adicionado ao array de Game Objects"<<endl;
 	objectArray.emplace_back(tileGO);
 	cout<<"		->Game Object tileGO adicionado ao array de Game Objects"<<endl;
+	objectArray.emplace_back(alienGO);
+	cout<<"		->Game Object alienGO adicionado ao array de Game Objects"<<endl;
 }
 
 State::~State() {
     objectArray.clear();
 }
 
-void State::AddObject(int mouseX, int mouseY) {
-    GameObject *newGO;
+weak_ptr<GameObject> State::AddObject(int mouseX, int mouseY) {
+    GameObject * newGO;
+	newGO = new GameObject();
+	shared_ptr<GameObject> go (newGO);
     Sound *newSound;
     Sprite *newSP;
     Face *newFace;
-    newGO = new GameObject();
+	weak_ptr<GameObject> weak_GO;
     newSP = new Sprite(*newGO, "assets/img/penguinface.png");
     newGO->box.x = (mouseX - newSP->GetWidth()/2);
     newGO->box.y = (mouseY - newSP->GetHeight()/2);
 	newGO->box.h = newSP->GetHeight();
 	newGO->box.w = newSP->GetWidth();
-	cout << "Penguin esta em X:" << newGO->box.x << "-Y:" << newGO->box.y << endl;
-	cout << "Tamanho do penguin W:" << newGO->box.w << "-H:" << newGO->box.h << endl;
+	//cout << "Penguin esta em X:" << newGO->box.x << "-Y:" << newGO->box.y << endl;
+	//cout << "Tamanho do penguin W:" << newGO->box.w << "-H:" << newGO->box.h << endl;
     newSound = new Sound(*newGO, "assets/audio/boom.wav");
     newFace = new Face(*newGO);
     newGO->AddComponent(shared_ptr<Component> (newSP));
     newGO->AddComponent(shared_ptr<Component> (newSound));
     newGO->AddComponent(shared_ptr<Component> (newFace));
-	cout<<"object array antes de adicionar "<<objectArray.size()<<endl;
-    objectArray.emplace_back(newGO);
-	cout<<"object array depois de adicionar "<<objectArray.size()<<endl;
+	//cout<<"object array antes de adicionar "<<objectArray.size()<<endl;
+    objectArray.emplace_back(go);
+	//cout<<"object array depois de adicionar "<<objectArray.size()<<endl;
+	if(started == true) {
+		newGO->Start();
+	}
+	weak_GO = go;
+	return weak_GO;
+}
+
+weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {
+	weak_ptr<GameObject> weak_GO;
+	for(int i = objectArray.size() - 1; i >= 0 ; i--) {
+        if(objectArray[i].get() == go){
+			weak_GO = objectArray[i];
+		}
+    }
+	return weak_GO;
 }
 
 void State::AddPenguin() {
@@ -153,20 +189,16 @@ void State::AddPenguin() {
 /* void State::Input() {
 	SDL_Event event;
 	int mouseX, mouseY;
-
 	// Obtenha as coordenadas do mouse
 	SDL_GetMouseState(&mouseX, &mouseY);
-
 	// SDL_PollEvent retorna 1 se encontrar eventos, zero caso contrário
 	while (SDL_PollEvent(&event)) {
-
 		// Se o evento for quit, setar a flag para terminação
 		if(event.type == SDL_QUIT) {
 			quitRequested = true;
 		}
 		// Se o evento for clique...
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
-
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
 				// Obtem o ponteiro e casta pra Face.
