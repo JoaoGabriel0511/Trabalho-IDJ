@@ -8,9 +8,8 @@
 using namespace std;
 class Sprite : public Component {
     SDL_Texture * texture;
-    int width;
-    int height;
     SDL_Rect clipRect;
+    Vect2 scale;
     public:
         Sprite();
         Sprite(GameObject &associated);
@@ -22,6 +21,8 @@ class Sprite : public Component {
         void Render(float x, float y, float w, float h);
         int GetWidth();
         int GetHeight();
+        void SetScaleX(float scalex, float scaley);
+        Vect2 GetScale();
         bool IsOpen();
         void Update(float dt);
         bool Is(string type);

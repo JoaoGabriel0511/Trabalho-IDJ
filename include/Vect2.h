@@ -11,18 +11,12 @@ class Vect2{
         Vect2 GetRotated(float nro);
         float x;
         float y;
-        Vect2 operator+(Vect2 vet) {
-            Vect2 result;
-            result.x = this->x + vet.x;
-            result.y = this->y + vet.y;
-            return result;
-        }
-        bool operator==(Vect2 vet) {
-            bool result = false;
-            if(this->x == vet.x && this->y == vet.y) {
-                result = true;
-            }
-            return result;
-        }
+        float Length();
+        float DistanceTo(Vect2 vect);
+        Vect2 Normalize();
+        Vect2 operator+(Vect2 vet);
+        Vect2 operator-(Vect2 vet);
+        Vect2 operator*(float nro);
+        bool operator==(Vect2 vet);
 };
 #endif

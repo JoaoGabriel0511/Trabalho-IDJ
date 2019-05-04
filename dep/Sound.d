@@ -6,7 +6,8 @@ bin/Sound.o: src/Sound.cpp src/../include/Sound.h \
  src/../include/Camera.h src/../include/Vect2.h src/../include/Music.h \
  src/../include/Face.h src/../include/Sound.h src/../include/TileMap.h \
  src/../include/TileSet.h src/../include/CameraFollower.h \
- src/../include/Alien.h src/../include/Action.h
+ src/../include/Alien.h src/../include/Action.h src/../include/Minion.h \
+ src/../include/Bullet.h
 
 src/../include/Sound.h:
 
@@ -47,3 +48,7 @@ src/../include/CameraFollower.h:
 src/../include/Alien.h:
 
 src/../include/Action.h:
+
+src/../include/Minion.h:
+
+src/../include/Bullet.h:

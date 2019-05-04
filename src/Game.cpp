@@ -16,7 +16,7 @@ Game& Game::GetInstance() {
     if(instance != NULL) {
         return *instance;
     } else {
-        instance = new Game("trabalho1", 800, 600);
+        instance = new Game("trabalho1", 1024, 600);
         return *instance;
     }
 }

@@ -12,6 +12,7 @@ class Component;
 class GameObject{
     bool isDead;
     public:
+        double angleDeg;
         GameObject();
         bool started;
         ~GameObject();

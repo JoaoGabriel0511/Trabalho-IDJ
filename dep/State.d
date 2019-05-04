@@ -6,7 +6,7 @@ bin/State.o: src/State.cpp src/../include/State.h src/../include/Sprite.h \
  src/../include/Music.h src/../include/Face.h src/../include/Sound.h \
  src/../include/TileMap.h src/../include/TileSet.h \
  src/../include/CameraFollower.h src/../include/Alien.h \
- src/../include/Action.h
+ src/../include/Action.h src/../include/Minion.h src/../include/Bullet.h
 
 src/../include/State.h:
 
@@ -47,3 +47,7 @@ src/../include/CameraFollower.h:
 src/../include/Alien.h:
 
 src/../include/Action.h:
+
+src/../include/Minion.h:
+
+src/../include/Bullet.h:

@@ -64,12 +64,12 @@ void State::Update(float dt) {
 			cout<<"isDEad state Update "<<j<<" "<<objectArray[j]->IsDead()<<endl;
 		}
 		if(objectArray[j]->IsDead() == true) {
-			Sound* sound;
-			sound = ((Sound*) objectArray[j]->GetComponent("Sound").get());
-			sound->Play(1);
-			if(Mix_Playing(sound->chanel)){
-				objectArray.erase(objectArray.begin() + j);
-			}
+			// Sound* sound;
+			// sound = ((Sound*) objectArray[j]->GetComponent("Sound").get());
+			// sound->Play(1);
+			// if(Mix_Playing(sound->chanel)){
+			objectArray.erase(objectArray.begin() + j);
+			//}
 			if(debugger.lookUpdateState) {
 				cout<<"depois do erase"<<endl;
 			}
@@ -140,33 +140,14 @@ State::~State() {
     objectArray.clear();
 }
 
-weak_ptr<GameObject> State::AddObject(int mouseX, int mouseY) {
-    GameObject * newGO;
-	newGO = new GameObject();
-	shared_ptr<GameObject> go (newGO);
-    Sound *newSound;
-    Sprite *newSP;
-    Face *newFace;
+weak_ptr<GameObject> State::AddObject(GameObject * go) {
 	weak_ptr<GameObject> weak_GO;
-    newSP = new Sprite(*newGO, "assets/img/penguinface.png");
-    newGO->box.x = (mouseX - newSP->GetWidth()/2);
-    newGO->box.y = (mouseY - newSP->GetHeight()/2);
-	newGO->box.h = newSP->GetHeight();
-	newGO->box.w = newSP->GetWidth();
-	//cout << "Penguin esta em X:" << newGO->box.x << "-Y:" << newGO->box.y << endl;
-	//cout << "Tamanho do penguin W:" << newGO->box.w << "-H:" << newGO->box.h << endl;
-    newSound = new Sound(*newGO, "assets/audio/boom.wav");
-    newFace = new Face(*newGO);
-    newGO->AddComponent(shared_ptr<Component> (newSP));
-    newGO->AddComponent(shared_ptr<Component> (newSound));
-    newGO->AddComponent(shared_ptr<Component> (newFace));
-	//cout<<"object array antes de adicionar "<<objectArray.size()<<endl;
-    objectArray.emplace_back(go);
-	//cout<<"object array depois de adicionar "<<objectArray.size()<<endl;
+	shared_ptr<GameObject> shared_GO(go);
+    objectArray.emplace_back(shared_GO);
 	if(started == true) {
-		newGO->Start();
+		go->Start();
 	}
-	weak_GO = go;
+	weak_GO = shared_GO;
 	return weak_GO;
 }
 
@@ -180,11 +161,11 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject *go) {
 	return weak_GO;
 }
 
-void State::AddPenguin() {
-	InputManager inputManager = InputManager::GetInstance();
-	Vect2 objPos = Vect2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vect2(inputManager.GetMouseX() , inputManager.GetMouseY());
-	AddObject((int)objPos.x - Camera::pos.x, (int)objPos.y - Camera::pos.y);
-}
+// void State::AddPenguin() {
+//	InputManager inputManager = InputManager::GetInstance();
+//	Vect2 objPos = Vect2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vect2(inputManager.GetMouseX() , inputManager.GetMouseY());
+//	AddObject((int)objPos.x - Camera::pos.x, (int)objPos.y - Camera::pos.y);
+//}
 
 /* void State::Input() {
 	SDL_Event event;

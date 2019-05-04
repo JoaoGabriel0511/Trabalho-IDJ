@@ -21,7 +21,7 @@ class State {
     bool started;
     void AddPenguin();
     public:
-        weak_ptr<GameObject> AddObject(int mouseX, int mouseY);
+        weak_ptr<GameObject> AddObject(GameObject *go);
         weak_ptr<GameObject> GetObjectPtr(GameObject *go);
         void Start();
         State();

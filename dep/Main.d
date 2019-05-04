@@ -6,7 +6,7 @@ bin/Main.o: src/Main.cpp src/../include/Game.h src/../include/State.h \
  src/../include/Resources.h src/../include/Music.h src/../include/Face.h \
  src/../include/Sound.h src/../include/TileMap.h src/../include/TileSet.h \
  src/../include/CameraFollower.h src/../include/Alien.h \
- src/../include/Action.h
+ src/../include/Action.h src/../include/Minion.h src/../include/Bullet.h
 
 src/../include/Game.h:
 
@@ -47,3 +47,7 @@ src/../include/CameraFollower.h:
 src/../include/Alien.h:
 
 src/../include/Action.h:
+
+src/../include/Minion.h:
+
+src/../include/Bullet.h:
